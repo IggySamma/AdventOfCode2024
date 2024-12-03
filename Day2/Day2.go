@@ -21,6 +21,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	count := 0
+	count2 := 0
 
 	for scanner.Scan() {
 		raw := strings.Split(scanner.Text(), " ")
@@ -33,15 +34,23 @@ func main() {
 			}
 			line = append(line, temp)
 		}
-
+		// Part 1
 		check := checkSafe(line)
 		if check == nil {
 			count++
 		}
 
+		//Part 2
+		check2 := checkSafe2(line)
+		if check2 == nil {
+			count2++
+		}
+
 	}
 
-	fmt.Println(count)
+	fmt.Println("part 1: ", count)
+	fmt.Println("part 2: ", count2)
+
 }
 
 func checkSafe(line []int64) error {
@@ -61,4 +70,25 @@ func checkSafe(line []int64) error {
 		return errors.New("1")
 	}
 	return nil
+}
+
+func remove(list []int64, i int) []int64 {
+	return append(list[:i], list[i+1:]...)
+}
+
+func checkSafe2(line []int64) error {
+	check := checkSafe(line)
+	if check == nil {
+		return nil
+	}
+	for i := 0; i < len(line); i++ {
+		var newLine []int64
+		newLine = append(newLine, line...)
+		newLine = remove(newLine, i)
+		check2 := checkSafe(newLine)
+		if check2 == nil {
+			return nil
+		}
+	}
+	return errors.New("1")
 }

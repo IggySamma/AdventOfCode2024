@@ -7,7 +7,7 @@ I'll be commit my solutions to the poblems here:
 Progress tracker: 
 
 Day 1:  Solved
-Day 2:
+Day 2:  Solved
 Day 3:
 Day 4:
 Day 5:

@@ -46,24 +46,24 @@ func main() {
 	sort.Ints(right)
 
 	part2(left, right)
-	/*
-		var diff []int
+	/* part 1 commented out
+	var diff []int
 
-		for i := 0; i < 1000; i++ {
-			if left[i] > right[i] {
-				diff = append(diff, left[i]-right[i])
-			} else {
-				diff = append(diff, right[i]-left[i])
-			}
+	for i := 0; i < 1000; i++ {
+		if left[i] > right[i] {
+			diff = append(diff, left[i]-right[i])
+		} else {
+			diff = append(diff, right[i]-left[i])
 		}
+	}
 
-		sum := 0
+	sum := 0
 
-		for i := 0; i < 1000; i++ {
-			sum = sum + diff[i]
-		}
+	for i := 0; i < 1000; i++ {
+		sum = sum + diff[i]
+	}
 
-		fmt.Println(sum)*/
+	fmt.Println(sum)*/
 }
 
 func part2(left []int, right []int) {
