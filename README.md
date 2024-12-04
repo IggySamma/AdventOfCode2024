@@ -4,12 +4,14 @@ Try the Advent of Code for you self at https://adventofcode.com
 
 I'll be commit my solutions to the poblems here:
 
+----------------------------------------------------------------------------------
+
 Progress tracker: 
 
 Day 1:  Solved
 Day 2:  Solved
 Day 3:  Solved
-Day 4:
+Day 4:  Started
 Day 5:
 Day 6:
 Day 7:
@@ -31,3 +33,5 @@ Day 22:
 Day 23:
 Day 24:
 Day 25:
+
+----------------------------------------------------------------------------------
