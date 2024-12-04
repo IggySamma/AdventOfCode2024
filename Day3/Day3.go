@@ -20,7 +20,7 @@ func main() {
 
 	regEx, _ := regexp.Compile("[mul(]{1}[0-9]{1,3}[,]{1}[0-9]{1,3}[)]{1}")
 
-	matches := regEx.FindAllStringSubmatchIndex(string(file), -1)
+	matches := regEx.FindAllStringSubmatchIndex(string(file), 5)
 
 	fmt.Println(matches)
 	fmt.Println(matches[0])
