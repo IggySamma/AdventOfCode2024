@@ -8,7 +8,7 @@ Progress tracker:
 
 Day 1:  Solved
 Day 2:  Solved
-Day 3:  Started
+Day 3:  Solved
 Day 4:
 Day 5:
 Day 6:
