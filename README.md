@@ -11,7 +11,7 @@ Progress tracker:
 Day 1:  Solved
 Day 2:  Solved
 Day 3:  Solved
-Day 4:  Started
+Day 4:  Solved
 Day 5:
 Day 6:
 Day 7:
