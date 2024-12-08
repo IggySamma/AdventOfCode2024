@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -182,6 +183,7 @@ func main() {
 	var rules [][]int
 	//var sorted [][]int
 	sum := 0
+	sumP2 := 0
 
 	for scanner.Scan() {
 		if len(scanner.Text()) != 0 {
@@ -193,13 +195,20 @@ func main() {
 				rules = append(rules, temp)
 			} else if scanner.Bytes()[2] == 44 {
 				sort := sort(line2ints(scanner.Text()), rules)
+				temp := line2ints(scanner.Text())
+				check := compare(sort, temp)
+				sum = sum + compare(sort, temp)
+				if check == 0 {
+					sumP2 = sumP2 + sort[(len(sort)-1)/2]
+				}
 				//sorted = append(sorted, sort)
-				sum = sum + sort[((len(sort)-1)/2)]
+
 				//fmt.Println(sorted)
 			}
 		}
 	}
-	fmt.Println(sum)
+	fmt.Println("Part 1: ", sum)
+	fmt.Println("Part 2: ", sumP2)
 }
 
 func line2ints(line string) []int {
@@ -213,43 +222,38 @@ func line2ints(line string) []int {
 	return temp
 }
 
+func compare(sort []int, temp []int) int {
+	for i := 0; i < len(sort); i++ {
+		if sort[i] != temp[i] {
+			return 0
+		}
+	}
+	return sort[(len(sort)-1)/2]
+}
+
 func sort(line []int, rules [][]int) []int {
 	if len(line) < 1 {
 		return nil
 	}
 
-	var temp []int
-	for i := 0; i < len(line); i++ {
-		if i != 0 {
-			for j := 0; j < len(rules); j++ {
-				if rules[j][1] == line[i] {
-					check := findIdx(temp, rules[j][0])
-					if check == 0 {
-						temp = append(temp, line[i])
-						break
-					}
-					insertAtIdx(temp, line[i], check)
-				}
-
+	slices.SortFunc(line, func(a, b int) int {
+		for _, rule := range rules {
+			if rule[0] == a && rule[1] == b {
+				return -1
 			}
-		} else {
-			temp = append(temp, line[i])
-		}
-	}
-	//fmt.Println("Temp: ", temp)
-	return temp
-}
+			if rule[0] == b && rule[1] == a {
 
-func findIdx(line []int, value int) int {
-	for i := 0; i < len(line); i++ {
-		if line[i] == value {
-			return i
+				return 1
+			}
 		}
-	}
-	return 0
-}
+		if a < b {
+			return -1
+		}
+		if a > b {
+			return 1
+		}
+		return 0
+	})
 
-func insertAtIdx(line []int, value int, idx int) []int {
-	line = append(line[:idx], append([]int{value}, line[idx:]...)...)
 	return line
 }
