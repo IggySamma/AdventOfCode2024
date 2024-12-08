@@ -13,7 +13,7 @@ Day 2:  Solved
 Day 3:  Solved
 Day 4:  Solved
 Day 5:  Solved
-Day 6:
+Day 6:  Started
 Day 7:
 Day 8:
 Day 9:
