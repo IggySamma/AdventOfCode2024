@@ -28,22 +28,28 @@ func main() {
 
 	location := initialLocation(mapp)
 
+	fmt.Println("Start Location: ", location)
+
 	move(mapp, location)
 
 	check := checkX(mapp)
+
+	//fmt.Println(mapp)
 
 	fmt.Println("Part 1: ", check)
 
 	path := getSteps(mapp)
 
+	//fmt.Println("path: ", path)
+
 	barriers := getBarriers(mapp)
 
-	setLoops := setLoops(mapp, path, barriers)
+	setLoops(mapp, path, barriers)
 
-	countLoops := checkO(setLoops)
+	//fmt.Println("loops: ", setLoops)
 
-	fmt.Println("Map: ", setLoops)
-
+	countLoops := checkO(mapp)
+	fmt.Println(mapp)
 	fmt.Println("Part 2:", countLoops)
 
 	//up, down, left, right, Path := getSteps(mapp)
@@ -53,7 +59,7 @@ func main() {
 
 }
 
-func setLoops(mapp [][]string, path [][]int, barriers [][]int) [][]string {
+func setLoops(mapp [][]string, path [][]int, barriers [][]int) {
 	//Check if another barrier is on the same patch +-1 of path
 	//If another line at same row/column of path would cause a redirect
 	//check all 4 corners for these conditions
@@ -69,37 +75,124 @@ func setLoops(mapp [][]string, path [][]int, barriers [][]int) [][]string {
 			*/
 			// set to path but check for change in direction instead then do this search
 			//if arrayExists([]int{i, j}, path) && multiArrayExists(j, i, path) {
-			if arrayExists([]int{i, j}, barriers) && multiArrayExists(j, i, path) {
-				//if mapp[j-1][i] == "#" || mapp[j+1][i] == "#" || mapp[j][i-1] == "#" || mapp[j][i+1] == "#" {
-				//if !(arrayExists([]int{j - 1, i}, barriers) || arrayExists([]int{j + 1, i}, barriers) || arrayExists([]int{j, i - 1}, barriers) || arrayExists([]int{j, i + 1}, barriers)) {
-				//switch below to barriers
-				if arrayExists([]int{j - 1, i}, path) {
-					mapp[j-1][i] = "O"
+			/*if arrayExists([]int{i, j}, path) {
+			//if mapp[j-1][i] == "#" || mapp[j+1][i] == "#" || mapp[j][i-1] == "#" || mapp[j][i+1] == "#" {
+			//if !(arrayExists([]int{j - 1, i}, barriers) || arrayExists([]int{j + 1, i}, barriers) || arrayExists([]int{j, i - 1}, barriers) || arrayExists([]int{j, i + 1}, barriers)) {
+			//switch below to barriers
+			/*if arrayExists([]int{j - 1, i}, barriers) {
+				mapp[j-1][i] = "O"
+			}
+			if arrayExists([]int{j + 1, i}, barriers) {
+				mapp[j+1][i] = "O"
+			}
+			if arrayExists([]int{j, i - 1}, barriers) {
+				mapp[j][i-1] = "O"
+			}
+			if arrayExists([]int{j, i + 1}, barriers) {
+				mapp[j][i+1] = "O"
+			}*/
+			/*	temp := multiArrayExists(j, i, path)
+				if temp != nil {
+					fmt.Println(temp)
 				}
-				if arrayExists([]int{j + 1, i}, path) {
-					mapp[j+1][i] = "O"
+			}*/
+			if mapp[i][j] == "X" {
+				//fmt.Println("passed 1: ")
+				if i-1 > 0 || j-1 > 0 || i+1 < len(mapp) || j+1 < len(mapp[i]) {
+					//fmt.Println("passed 2: ")
+					if mapp[i][j+1] == "X" && mapp[i-1][j] == "X" && mapp[i][j-1] == "X" && mapp[i+1][j] == "X" {
+						//fmt.Println("passed 3: ")
+						for k := 0; k < len(path); k++ {
+							for l := 0; l < len(path); l++ {
+								if arrayExists([]int{i, k}, path) && arrayExists([]int{l, k}, path) && arrayExists([]int{l, j}, path) ||
+									arrayExists([]int{(i - 1), k}, barriers) && arrayExists([]int{(l + 1), (k)}, barriers) && arrayExists([]int{(l), (j - 1)}, barriers) {
+									for m := 0; m < len(barriers); m++ {
+										if !(barriers[m][0] == i && barriers[m][1] > j && barriers[m][1] < k ||
+											barriers[m][0] == l && barriers[m][1] > j && barriers[m][1] < k ||
+											barriers[m][1] == j && barriers[m][0] > i && barriers[m][0] < l ||
+											barriers[m][1] == k && barriers[m][0] > i && barriers[m][0] < l) {
+											mapp[i][j] = "O"
+
+										} else {
+											mapp[i][j] = "X"
+											break
+										}
+									}
+								}
+								/*if arrayExists([]int{(i - 1), k}, barriers) && arrayExists([]int{(l + 1), (k)}, barriers) && arrayExists([]int{(l), (j - 1)}, barriers) {
+								for m := 0; m < len(barriers); m++ {
+									/*if !(barriers[m][0] == i && barriers[m][1] > j && barriers[m][1] < k ||
+										barriers[m][0] == l && barriers[m][1] > j && barriers[m][1] < k ||
+										barriers[m][1] == j && barriers[m][0] > i && barriers[m][0] < l ||
+										barriers[m][1] == k && barriers[m][0] > i && barriers[m][0] < l) {
+										mapp[i][j] = "O"
+
+									} else {
+										mapp[i][j] = "X"
+										break
+									}*/
+								/*	fmt.Println("y")
+										mapp[i][j] = "O"
+									}
+								}*/
+							}
+						}
+					}
 				}
-				if arrayExists([]int{j, i - 1}, path) {
-					mapp[j][i-1] = "O"
+			}
+
+			/*if mapp[i][j] == "X" {
+			if i-1 > 0 || j-1 > 0 || i+1 < len(mapp) || j+1 < len(mapp[i]) {
+				for k := 0; k < len(barriers); k++ {
+					for l := 0; l < len(barriers); l++ {
+						if arrayExists([]int{(i - 1), k}, barriers) && arrayExists([]int{(l + 1), (k)}, barriers) && arrayExists([]int{(l), (j - 1)}, barriers) {
+							for m := 0; m < len(barriers); m++ {
+								/*if !(barriers[m][0] == i && barriers[m][1] > j && barriers[m][1] < k ||
+									barriers[m][0] == l && barriers[m][1] > j && barriers[m][1] < k ||
+									barriers[m][1] == j && barriers[m][0] > i && barriers[m][0] < l ||
+									barriers[m][1] == k && barriers[m][0] > i && barriers[m][0] < l) {
+									mapp[i][j] = "O"
+
+								} else {
+									mapp[i][j] = "X"
+									break
+								}*/
+			/*fmt.Println("y")
+									mapp[i][j] = "O"
+								}
+							}
+						}
+					}
 				}
-				if arrayExists([]int{j, i + 1}, path) {
-					mapp[j][i+1] = "O"
-				}
+			}*/
+
+		}
+	}
+}
+
+func multiArrayExists(check int, check2 int, path [][]int) []int {
+	for i := 0; i < len(path); i++ {
+		for j := 0; j < len(path); j++ {
+			if path[i][1] == check && path[i][0] == path[j][0] && arrayExists([]int{check, path[j][1]}, path) {
+				return []int{check, path[j][1]}
 			}
 		}
 	}
-	return mapp
+	return nil
 }
 
-func multiArrayExists(check int, check2 int, path [][]int) bool {
-	for i := 0; i < len(path); i++ {
-		if path[i][0] == check && path[i][1] == check2 {
-			return true
+/*
+	func multiArrayExists(check int, check2 int, path [][]int) bool {
+		for i := 0; i < len(path); i++ {
+			for j := 0; j < len(path); j++ {
+				if path[i][1] == check && path[i][0] == path[j][0] && arrayExists([]int{check, path[j][1]}, path) {
+					return true
+				}
+			}
 		}
+		return false
 	}
-	return false
-}
-
+*/
 func arrayExists(check []int, mapp [][]int) bool {
 	for i := 0; i < len(mapp); i++ {
 		if check[0] == mapp[i][0] && check[1] == mapp[i][1] {
@@ -210,94 +303,107 @@ func move(mapp [][]string, location []int) {
 	}
 }
 
-/*
-	func moveLeft(mapp [][]string, location []int) ([]int, string, bool) {
-		for i := location[1]; i > 0; i-- {
-			if i-1 == 0 {
-				if !(mapp[location[0]][i-1] == "#") {
-					mapp[location[0]][i] = "X"
-					mapp[location[0]][i-1] = "X"
-					return []int{location[0], i - 1}, "<", true
-				}
+func moveLeft(mapp [][]string, location []int) ([]int, string, bool) {
+	for i := location[1]; i > 0; i-- {
+		if i-1 == 0 {
+			if !(mapp[location[0]][i-1] == "#") {
+				mapp[location[0]][i] = "X"
+				mapp[location[0]][i-1] = "X"
+				return []int{location[0], i - 1}, "<", true
 			}
-			if mapp[location[0]][i-1] == "#" {
-				mapp[location[0]][i] = "^"
-				return []int{location[0], i}, "^", false
+		}
+		if mapp[location[0]][i-1] == "#" {
+			mapp[location[0]][i] = "^"
+			return []int{location[0], i}, "^", false
+		} else {
+			if i == location[1] {
+				mapp[location[0]][i-1] = "<"
 			} else {
 				mapp[location[0]][i-1] = "<"
 				mapp[location[0]][i] = "X"
 			}
-
 		}
-		return []int{}, "<", true
+
+	}
+	return []int{}, "<", true
 
 }
 
-	func moveRight(mapp [][]string, location []int) ([]int, string, bool) {
-		for i := location[1]; i < len(mapp[location[0]]); i++ {
-			if i+1 == len(mapp[location[0]]) {
-				if !(mapp[location[0]][i+1] == "#") {
-					mapp[location[0]][i] = "X"
-					mapp[location[0]][i+1] = "X"
-					return []int{location[0], i + 1}, ">", true
-				}
+func moveRight(mapp [][]string, location []int) ([]int, string, bool) {
+	for i := location[1]; i < len(mapp[location[0]]); i++ {
+		if i+1 == len(mapp[location[0]]) {
+			if !(mapp[location[0]][i+1] == "#") {
+				mapp[location[0]][i] = "X"
+				mapp[location[0]][i+1] = "X"
+				return []int{location[0], i + 1}, ">", true
 			}
-			if mapp[location[0]][i+1] == "#" {
-				mapp[location[0]][i] = "V"
-				return []int{location[0], i}, "V", false
+		}
+		if mapp[location[0]][i+1] == "#" {
+			mapp[location[0]][i] = "V"
+			return []int{location[0], i}, "V", false
+		} else {
+			if i == location[1] {
+				mapp[location[0]][i+1] = ">"
 			} else {
 				mapp[location[0]][i+1] = ">"
 				mapp[location[0]][i] = "X"
-
 			}
-
 		}
-		return []int{}, ">", true
+	}
+	return []int{}, ">", true
 
 }
 
 func moveUp(mapp [][]string, location []int) ([]int, string, bool) {
 
-		for i := location[0]; i > 0; i-- {
-			if (i - 1) == 0 {
-				if !(mapp[i-1][location[1]] == "#") {
-					mapp[i-1][location[1]] = "X"
-					mapp[i][location[1]] = "X"
-					return []int{i, location[1]}, "^", true
-				}
+	for i := location[0]; i > 0; i-- {
+		if (i - 1) == 0 {
+			if !(mapp[i-1][location[1]] == "#") {
+				mapp[i-1][location[1]] = "X"
+				mapp[i][location[1]] = "X"
+				return []int{i, location[1]}, "^", true
 			}
-			if mapp[i-1][location[1]] == "#" {
-				mapp[i][location[1]] = ">"
-				return []int{i, location[1]}, ">", false // true for test
+		}
+		if mapp[i-1][location[1]] == "#" {
+			mapp[i][location[1]] = ">"
+			return []int{i, location[1]}, ">", false // true for test
+		} else {
+			if i == location[0] {
+				mapp[i-1][location[1]] = "^"
 			} else {
 				mapp[i-1][location[1]] = "^"
 				mapp[i][location[1]] = "X"
-
 			}
 		}
-		return []int{}, "^", true
 	}
+	return []int{}, "^", true
+}
 
-	func moveDown(mapp [][]string, location []int) ([]int, string, bool) {
-		for i := location[0]; i < len(mapp); i++ {
-			if (i + 1) == len(mapp) {
-				if !(mapp[i+1][location[1]] == "#") {
-					mapp[i+1][location[1]] = "X"
-					mapp[i][location[1]] = "X"
-					return []int{i, location[1]}, "V", true
-				}
+func moveDown(mapp [][]string, location []int) ([]int, string, bool) {
+	for i := location[0]; i < len(mapp); i++ {
+		if (i + 1) == len(mapp) {
+			if !(mapp[i+1][location[1]] == "#") {
+				mapp[i+1][location[1]] = "X"
+				mapp[i][location[1]] = "X"
+				return []int{i, location[1]}, "V", true
 			}
-			if mapp[i+1][location[1]] == "#" {
-				mapp[i][location[1]] = "<"
-				return []int{i, location[1]}, "<", false // true for test
+		}
+		if mapp[i+1][location[1]] == "#" {
+			mapp[i][location[1]] = "<"
+			return []int{i, location[1]}, "<", false // true for test
+		} else {
+			if i == location[0] {
+				mapp[i+1][location[1]] = "V"
 			} else {
 				mapp[i+1][location[1]] = "V"
 				mapp[i][location[1]] = "X"
 			}
 		}
-		return []int{}, "V", true
 	}
-*/
+	return []int{}, "V", true
+}
+
+/*
 func moveLeft(mapp [][]string, location []int) ([]int, string, bool) {
 	for i := location[1]; i > 0; i-- {
 		if i-1 == 0 {
@@ -384,3 +490,4 @@ func moveDown(mapp [][]string, location []int) ([]int, string, bool) {
 	}
 	return []int{}, "V", true
 }
+*/
