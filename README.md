@@ -18,7 +18,7 @@ Day 4:  Solved
 
 Day 5:  Solved
 
-Day 6:  Started
+Day 6:  Part 1 Solved
 
 Day 7:
 
